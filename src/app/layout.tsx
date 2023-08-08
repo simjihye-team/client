@@ -1,6 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
+import QueryClientProvider from "@/services/QueryClientProvider";
+import Provider from "@/components/Provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +16,11 @@ interface PropsType {
 const RootLayout = ({ children }: PropsType) => {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <QueryClientProvider>
+          <Provider>{children}</Provider>
+        </QueryClientProvider>
+      </body>
     </html>
   );
 };
