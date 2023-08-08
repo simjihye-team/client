@@ -4,37 +4,39 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-importers:
+dependencies:
+  '@types/node':
+    specifier: 20.4.8
+    version: 20.4.8
+  '@types/react':
+    specifier: 18.2.19
+    version: 18.2.19
+  '@types/react-dom':
+    specifier: 18.2.7
+    version: 18.2.7
+  eslint:
+    specifier: 8.46.0
+    version: 8.46.0
+  eslint-config-next:
+    specifier: 13.4.13
+    version: 13.4.13(eslint@8.46.0)(typescript@5.1.6)
+  next:
+    specifier: 13.4.13
+    version: 13.4.13(react-dom@18.2.0)(react@18.2.0)
+  react:
+    specifier: 18.2.0
+    version: 18.2.0
+  react-dom:
+    specifier: 18.2.0
+    version: 18.2.0(react@18.2.0)
+  typescript:
+    specifier: 5.1.6
+    version: 5.1.6
 
-  .:
-    dependencies:
-      '@types/node':
-        specifier: 20.4.8
-        version: 20.4.8
-      '@types/react':
-        specifier: 18.2.19
-        version: 18.2.19
-      '@types/react-dom':
-        specifier: 18.2.7
-        version: 18.2.7
-      eslint:
-        specifier: 8.46.0
-        version: 8.46.0
-      eslint-config-next:
-        specifier: 13.4.13
-        version: 13.4.13(eslint@8.46.0)(typescript@5.1.6)
-      next:
-        specifier: 13.4.13
-        version: 13.4.13(react-dom@18.2.0)(react@18.2.0)
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
-      typescript:
-        specifier: 5.1.6
-        version: 5.1.6
+devDependencies:
+  '@tanstack/eslint-plugin-query':
+    specifier: ^4.32.5
+    version: 4.32.5
 
 packages:
 
@@ -240,6 +242,10 @@ packages:
     dependencies:
       tslib: 2.6.1
     dev: false
+
+  /@tanstack/eslint-plugin-query@4.32.5:
+    resolution: {integrity: sha512-lXgOi5jWsCx8szS4bgKPEBZiCnsxIeVlW5VpJo9JwlEhq7fiUWcTR8IJ+66sAFFfV7dpLj3R6MQjjnDGjlU9xg==}
+    dev: true
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
