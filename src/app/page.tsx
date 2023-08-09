@@ -51,7 +51,17 @@ const MainScreen = () => {
             width="100%"
           />
         </Column>
-        <Button onClick={() => push("/start")} size="LARGE" width="100%">
+        <Button
+          onClick={() => {
+            if (situation === "") {
+              alert("상황을 선택해주세요 !");
+              return;
+            }
+            push("/start");
+          }}
+          size="LARGE"
+          width="100%"
+        >
           다음
         </Button>
       </Column>
