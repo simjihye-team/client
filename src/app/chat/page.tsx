@@ -48,7 +48,7 @@ const ChatScreen = () => {
         }
         confirmText="나가기"
         onConfirm={() => {
-          push("/");
+          push("/analysis");
           close();
         }}
         onClose={close}
@@ -100,27 +100,29 @@ const ChatScreen = () => {
             },
           });
           setChatList((prev) => [...prev, ...data.result]);
-          overlay.open(({ isOpen, close }) => (
-            <Modal
-              isOpen={isOpen}
-              title="잘 대답하셨어요!"
-              content={
-                <>
-                  <Text fontType="p3" color={color.gray900}>
-                    잘 대답하셨어요!! 솔루션을 드릴게요!
-                  </Text>
-                  <Text fontType="p3" color={color.gray900}>
-                    말이 너무 빨라요 천천히 또박또박 말해보아요!
-                  </Text>
-                  <Text fontType="p3" color={color.red}>
-                    번역을 하여 자세하게 보아요!
-                  </Text>
-                </>
-              }
-              onConfirm={close}
-              onClose={close}
-            />
-          ));
+          setInterval(() => {
+            overlay.open(({ isOpen, close }) => (
+              <Modal
+                isOpen={isOpen}
+                title="잘 대답하셨어요!"
+                content={
+                  <>
+                    <Text fontType="p3" color={color.gray900}>
+                      잘 대답하셨어요!! 솔루션을 드릴게요!
+                    </Text>
+                    <Text fontType="p3" color={color.gray900}>
+                      말이 너무 빨라요 천천히 또박또박 말해보아요!
+                    </Text>
+                    <Text fontType="p3" color={color.red}>
+                      번역을 하여 자세하게 보아요!
+                    </Text>
+                  </>
+                }
+                onConfirm={close}
+                onClose={close}
+              />
+            ));
+          }, 1500);
         } catch (err) {
           console.log(err);
           alert("에러");
