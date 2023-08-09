@@ -1,102 +1,50 @@
 "use client";
 
+import { IconMic } from "@/assets/icon";
 import { Column, Text } from "@/components/common";
 import { Header } from "@/components/domains";
-import { color, font } from "@/styles";
+import { CHAT_LIST_DATA } from "@/constants/chat";
+import { color } from "@/styles";
 import { flex } from "@/utils";
-import { IconMic } from "@/assets/icon";
+import { MouseEventHandler, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 
-const CHAT_LIST_DATA = [
-  {
-    role: "user",
-    content: "Hello!",
-  },
-  {
-    role: "system",
-    content:
-      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
-  },
-  {
-    role: "user",
-    content: "You too!",
-  },
-  {
-    role: "system",
-    content:
-      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
-  },
-  {
-    role: "user",
-    content: "You too!",
-  },
-
-  {
-    role: "system",
-    content:
-      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
-  },
-  {
-    role: "user",
-    content: "You too!",
-  },
-  {
-    role: "system",
-    content:
-      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
-  },
-  {
-    role: "user",
-    content: "You too!",
-  },
-  {
-    role: "system",
-    content:
-      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
-  },
-  {
-    role: "user",
-    content: "You too!",
-  },
-  {
-    role: "system",
-    content:
-      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
-  },
-  {
-    role: "user",
-    content: "You too!",
-  },
-  {
-    role: "system",
-    content:
-      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
-  },
-  {
-    role: "user",
-    content: "You too!",
-  },
-  {
-    role: "system",
-    content:
-      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
-  },
-  {
-    role: "user",
-    content: "You too!",
-  },
-  {
-    role: "system",
-    content:
-      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
-  },
-  {
-    role: "user",
-    content: "You too!",
-  },
-];
-
 const ChatScreen = () => {
+  const [isRecording, setIsRecording] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+
+  const handleRecordButtonClick: MouseEventHandler<HTMLButtonElement> = async (
+    event
+  ) => {
+    if (!isRecording) {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+
+      mediaRecorderRef.current = new MediaRecorder(mediaStream);
+
+      const audioArray: Blob[] = [];
+
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        audioArray.push(event.data);
+      };
+
+      mediaRecorderRef.current.onstop = (event) => {
+        const blob = new Blob(audioArray, { type: "audio/ogg codecs=opus" });
+        audioArray.splice(0);
+
+        const blobURL = window.URL.createObjectURL(blob);
+
+        // blobURL 보내기
+        console.log(blobURL);
+      };
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
+    } else {
+      mediaRecorderRef.current?.stop();
+      setIsRecording(false);
+    }
+  };
   return (
     <>
       <Header />
@@ -125,7 +73,8 @@ const ChatScreen = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <MikeButton>
+        <MikeButton onClick={handleRecordButtonClick}>
+          {/* <IconStopMic width={24} height={24} color={color.white} /> */}
           <IconMic width={24} height={24} color={color.gray900} />
         </MikeButton>
       </Column>
@@ -163,5 +112,6 @@ const MikeButton = styled.button`
   height: 48px;
   background-color: ${color.white};
   border: 2px solid ${color.primary};
+  color: ${color.primary};
   border-radius: 50%;
 `;
