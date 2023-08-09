@@ -5,6 +5,7 @@ import { IconMic, IconQuestion, IconSpeaker, IconStopMic } from "@/assets/icon";
 import { Column, Row, Text } from "@/components/common";
 import { Header } from "@/components/domains";
 import AssistantChat from "@/components/domains/AssistantChat/AssistantChat";
+import Chat from "@/components/domains/Chat/Chat";
 import Modal from "@/components/domains/Modal/Modal";
 import { CHAT_LIST_DATA } from "@/constants/chat";
 import { situationAtomState } from "@/store/situation";
@@ -149,11 +150,7 @@ const ChatScreen = () => {
             role === "assistant" ? (
               <AssistantChat content={content} />
             ) : (
-              <Chat>
-                <Text fontType="p3" color={color.white}>
-                  {content}
-                </Text>
-              </Chat>
+              <Chat content={content} />
             )
           )}
         </Column>
@@ -190,18 +187,6 @@ const StyledChatScreen = styled.div`
   max-height: max-content;
   background-color: ${color.white};
   padding: 10px 16px;
-`;
-
-const Chat = styled.div`
-  ${flex({ flexDirection: "column", alignItems: "flex-start" })}
-  gap: 8px;
-  max-width: 220px;
-  padding: 8px 12px;
-  border-radius: 14px;
-  background-color: ${color.gray100};
-
-  margin-left: auto;
-  background-color: ${color.primary};
 `;
 
 const MikeButton = styled.button<{ isRecording: boolean }>`

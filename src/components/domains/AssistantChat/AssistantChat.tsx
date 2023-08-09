@@ -25,7 +25,7 @@ const AssistantChat = ({ content }: PropsType) => {
   };
 
   return (
-    <Chat>
+    <StyledAssistantChat>
       <Text fontType="p3" color={color.gray900}>
         {content}
       </Text>
@@ -43,13 +43,13 @@ const AssistantChat = ({ content }: PropsType) => {
           onClick={fetchTranslate}
         />
       </Row>
-    </Chat>
+    </StyledAssistantChat>
   );
 };
 
 export default AssistantChat;
 
-const Chat = styled.div`
+const StyledAssistantChat = styled.div`
   ${flex({ flexDirection: "column", alignItems: "flex-start" })}
   gap: 8px;
   max-width: 220px;
