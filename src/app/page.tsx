@@ -1,5 +1,16 @@
-const MainPage = () => {
-  return <div>드가야지</div>;
+"use client";
+
+import { flex } from "@/utils";
+import styled from "styled-components";
+
+const MainScreen = () => {
+  return <StyledMainScreen>asdas</StyledMainScreen>;
 };
 
-export default MainPage;
+export default MainScreen;
+
+const StyledMainScreen = styled.div`
+  ${flex({ flexDirection: "column", alignItems: "center" })}
+  width: 100%;
+  height: 100vh;
+`;

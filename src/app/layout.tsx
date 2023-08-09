@@ -1,4 +1,3 @@
-import "./globals.css";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 import QueryClientProvider from "@/services/QueryClientProvider";
