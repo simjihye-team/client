@@ -3,6 +3,7 @@
 import { GlobalStyled } from "@/styles";
 import { ReactNode } from "react";
 import { OverlayProvider } from "@toss/use-overlay";
+import { RecoilRoot } from "recoil";
 
 interface PropsType {
   children: ReactNode;
@@ -10,10 +11,12 @@ interface PropsType {
 
 const Provider = ({ children }: PropsType) => {
   return (
-    <OverlayProvider>
-      <GlobalStyled />
-      {children}
-    </OverlayProvider>
+    <RecoilRoot>
+      <OverlayProvider>
+        <GlobalStyled />
+        {children}
+      </OverlayProvider>
+    </RecoilRoot>
   );
 };
 

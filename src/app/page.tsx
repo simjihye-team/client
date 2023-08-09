@@ -9,10 +9,12 @@ import SVGSmirkingFace from "@/assets/svg/smirking-face.svg";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { situationAtomState } from "@/store/situation";
 
 const MainScreen = () => {
   const { push } = useRouter();
-  const [situation, setSituation] = useState("");
+  const [situation, setSituation] = useRecoilState(situationAtomState);
 
   const handleSituationDataChange = useCallback(
     (data: string) => {

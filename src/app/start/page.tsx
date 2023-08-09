@@ -8,9 +8,12 @@ import Image from "next/image";
 import { Header } from "@/components/domains";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
+import { situationAtomState } from "@/store/situation";
+import { useRecoilValue } from "recoil";
 
 const StartScreen = () => {
   const { push } = useRouter();
+  const situation = useRecoilValue(situationAtomState);
 
   return (
     <>
@@ -24,7 +27,7 @@ const StartScreen = () => {
               height={160}
               alt="smirking-face"
             />
-            <Text fontType="H2">햄버거 체인점에서</Text>
+            <Text fontType="H2">{situation}</Text>
           </Column>
 
           <Column width="100%">
