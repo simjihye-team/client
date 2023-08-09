@@ -8,11 +8,13 @@ import { CHAT_LIST_DATA } from "@/constants/chat";
 import { color } from "@/styles";
 import { flex } from "@/utils";
 import { useOverlay } from "@toss/use-overlay";
+import { useRouter } from "next/navigation";
 import { MouseEventHandler, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 
 const ChatScreen = () => {
   const overlay = useOverlay();
+  const { push } = useRouter();
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
@@ -69,13 +71,10 @@ const ChatScreen = () => {
         }
         confirmText="나가기"
         onConfirm={() => {
-          console.log("s");
+          push("/");
           close();
         }}
-        onClose={() => {
-          console.log("s");
-          close();
-        }}
+        onClose={close}
       />
     ));
   };
