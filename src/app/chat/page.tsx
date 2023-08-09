@@ -100,13 +100,31 @@ const ChatScreen = () => {
             },
           });
           setChatList((prev) => [...prev, ...data.result]);
-          console.log(chatList);
+          overlay.open(({ isOpen, close }) => (
+            <Modal
+              isOpen={isOpen}
+              title="잘 대답하셨어요!"
+              content={
+                <>
+                  <Text fontType="p3" color={color.gray900}>
+                    잘 대답하셨어요!! 솔루션을 드릴게요!
+                  </Text>
+                  <Text fontType="p3" color={color.gray900}>
+                    말이 너무 빨라요 천천히 또박또박 말해보아요!
+                  </Text>
+                  <Text fontType="p3" color={color.red}>
+                    번역을 하여 자세하게 보아요!
+                  </Text>
+                </>
+              }
+              onConfirm={close}
+              onClose={close}
+            />
+          ));
         } catch (err) {
           console.log(err);
           alert("에러");
         }
-
-        console.log(sound);
       };
       mediaRecorderRef.current.start();
       setIsRecording(true);
@@ -115,10 +133,6 @@ const ChatScreen = () => {
       setIsRecording(false);
     }
   };
-
-  useEffect(() => {
-    console.log(chatList);
-  }, [chatList]);
 
   const fetchFirstQuestion = async () => {
     try {
