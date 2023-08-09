@@ -3,13 +3,16 @@
 import { IconMic, IconQuestion, IconSpeaker, IconStopMic } from "@/assets/icon";
 import { Column, Row, Text } from "@/components/common";
 import { Header } from "@/components/domains";
+import Modal from "@/components/domains/Modal/Modal";
 import { CHAT_LIST_DATA } from "@/constants/chat";
 import { color } from "@/styles";
 import { flex } from "@/utils";
+import { useOverlay } from "@toss/use-overlay";
 import { MouseEventHandler, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 
 const ChatScreen = () => {
+  const overlay = useOverlay();
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
@@ -49,9 +52,37 @@ const ChatScreen = () => {
     }
   };
 
+  const openFinishModal = () => {
+    overlay.open(({ isOpen, close }) => (
+      <Modal
+        isOpen={isOpen}
+        title="정말 끝내겠습니까?"
+        content={
+          <>
+            <Text fontType="p3" color={color.gray900}>
+              당신의 퍼포먼스는 정말 대단했습니다!
+            </Text>
+            <Text fontType="p3" color={color.gray900}>
+              이제 당신의 실력을 보여 줄 시간입니다!
+            </Text>
+          </>
+        }
+        confirmText="나가기"
+        onConfirm={() => {
+          console.log("s");
+          close();
+        }}
+        onClose={() => {
+          console.log("s");
+          close();
+        }}
+      />
+    ));
+  };
+
   return (
     <>
-      <Header />
+      <Header option="chat" title="햄버거 안에" onFinsh={openFinishModal} />
       <StyledChatScreen>
         <Column gap={16}>
           {CHAT_LIST_DATA.map(({ role, content }) =>
@@ -130,7 +161,7 @@ const Chat = styled.div<{ isChatGpt: boolean }>`
 
 const MikeButton = styled.button<{ isRecording: boolean }>`
   ${flex({ justifyContent: "center", alignItems: "center" })}
-  width: 250px;
+  width: 200px;
   height: 48px;
   background-color: ${color.gray200};
   color: ${color.primary};

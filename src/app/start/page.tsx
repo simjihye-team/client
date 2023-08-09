@@ -14,7 +14,7 @@ const StartScreen = () => {
 
   return (
     <>
-      <Header />
+      <Header option="default" />
       <StyledStartScreen>
         <Column width="100%" gap={32} alignItems="center">
           <Column width="100%" gap={16} alignItems="center">
