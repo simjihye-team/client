@@ -4,20 +4,21 @@ import { customAxios } from "@/apis/core";
 import { IconMic, IconQuestion, IconSpeaker, IconStopMic } from "@/assets/icon";
 import { Column, Row, Text } from "@/components/common";
 import { Header } from "@/components/domains";
+import AssistantChat from "@/components/domains/AssistantChat/AssistantChat";
 import Modal from "@/components/domains/Modal/Modal";
 import { CHAT_LIST_DATA } from "@/constants/chat";
 import { situationAtomState } from "@/store/situation";
 import { color } from "@/styles";
 import { flex } from "@/utils";
 import { useOverlay } from "@toss/use-overlay";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled, { css } from "styled-components";
 
 interface Chat {
-  id: number;
-  message: string;
+  content: string;
   role: string;
 }
 
@@ -26,58 +27,11 @@ const ChatScreen = () => {
   const { push } = useRouter();
   const situation = useRecoilValue(situationAtomState);
   const [isRecording, setIsRecording] = useState(false);
+  const [audiourl, setAudiourl] = useState<any>();
   const [firstChat, setFirstChat] = useState("");
+  const [chatId, setChatId] = useState("");
   const [chatList, setChatList] = useState<Chat[]>([]);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-
-  const handleRecordButtonClick: MouseEventHandler<
-    HTMLButtonElement
-  > = async () => {
-    if (!isRecording) {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-      });
-
-      mediaRecorderRef.current = new MediaRecorder(mediaStream);
-
-      const audioArray: Blob[] = [];
-
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        audioArray.push(event.data);
-      };
-
-      mediaRecorderRef.current.onstop = async (event) => {
-        const blob = new Blob(audioArray, { type: "audio/ogg codecs=opus" });
-        audioArray.splice(0);
-
-        const audioUrl = window.URL.createObjectURL(blob);
-        const sound = new File([audioUrl], "soundBlob", {
-          lastModified: new Date().getTime(),
-          type: "audio",
-        });
-
-        // api
-        try {
-          await customAxios.post(
-            "/api/voice/text",
-            { formData: sound },
-            { headers: { "Content-Type": "multipart/form-data" } }
-          );
-          alert("성공이노");
-        } catch (err) {
-          console.log(err);
-          alert("에러");
-        }
-
-        console.log(sound);
-      };
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
-    } else {
-      mediaRecorderRef.current?.stop();
-      setIsRecording(false);
-    }
-  };
 
   const openFinishModal = () => {
     overlay.open(({ isOpen, close }) => (
@@ -104,12 +58,77 @@ const ChatScreen = () => {
     ));
   };
 
+  const handleRecordButtonClick: MouseEventHandler<
+    HTMLButtonElement
+  > = async () => {
+    if (!isRecording) {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+
+      mediaRecorderRef.current = new MediaRecorder(mediaStream);
+
+      const audioArray: Blob[] = [];
+
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        audioArray.push(event.data);
+      };
+
+      mediaRecorderRef.current.onstop = async (event) => {
+        const blob = new Blob(audioArray, { type: "audio/ogg" });
+
+        audioArray.splice(0);
+
+        const audioUrl = window.URL.createObjectURL(blob);
+
+        const sound = await fetch(audioUrl)
+          .then((r) => r.blob())
+          .then((r) => new File([r], "filename", { type: "audio/ogg" }));
+
+        console.log(audioUrl);
+        console.log(sound);
+
+        const formData = new FormData();
+
+        formData.append("audio", sound);
+        formData.append("data", JSON.stringify({ chatId }));
+
+        // api
+        try {
+          const { data } = await customAxios.post("/api/voice/text", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              enctype: "multipart/form-data",
+            },
+          });
+          setChatList((prev) => [...prev, ...data.result]);
+          console.log(chatList);
+        } catch (err) {
+          console.log(err);
+          alert("에러");
+        }
+
+        console.log(sound);
+      };
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
+    } else {
+      mediaRecorderRef.current?.stop();
+      setIsRecording(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log(chatList);
+  }, [chatList]);
+
   const fetchFirstQuestion = async () => {
     try {
       const { data } = await customAxios.post("/api/question/first", {
         situation,
       });
       setFirstChat(data.result.content);
+      setChatId(data.ChatId);
     } catch (err) {
       console.log(err);
       alert("뭔가가 안돼느데?");
@@ -125,35 +144,14 @@ const ChatScreen = () => {
       <Header option="chat" title={situation} onFinsh={openFinishModal} />
       <StyledChatScreen>
         <Column gap={16}>
-          {firstChat && (
-            <Chat isChatGpt={true}>
-              <Text fontType="p3" color={color.gray900}>
-                {firstChat}
-              </Text>
-              <Row style={{ marginTop: "8px" }} gap={8} alignItems="center">
-                <IconSpeaker width={16} height={16} color={color.primary} />
-                <IconQuestion width={16} height={16} color={color.primary} />
-              </Row>
-            </Chat>
-          )}
-          {chatList.map(({ role, message, id }) =>
+          {firstChat && <AssistantChat content={firstChat} />}
+          {chatList.map(({ role, content }) =>
             role === "assistant" ? (
-              <Chat key={id} isChatGpt={role === "assistant"}>
-                <Text fontType="p3" color={color.gray900}>
-                  {message}
-                </Text>
-                {/* <Text fontType="p3" color={color.primary}>
-                  번역번역번역번역번역번역번역번역번역번역번역번역
-                </Text> */}
-                <Row style={{ marginTop: "8px" }} gap={8} alignItems="center">
-                  <IconSpeaker width={16} height={16} color={color.primary} />
-                  <IconQuestion width={16} height={16} color={color.primary} />
-                </Row>
-              </Chat>
+              <AssistantChat content={content} />
             ) : (
-              <Chat isChatGpt={role === "assistant"}>
+              <Chat>
                 <Text fontType="p3" color={color.white}>
-                  {message}
+                  {content}
                 </Text>
               </Chat>
             )
@@ -194,7 +192,7 @@ const StyledChatScreen = styled.div`
   padding: 10px 16px;
 `;
 
-const Chat = styled.div<{ isChatGpt: boolean }>`
+const Chat = styled.div`
   ${flex({ flexDirection: "column", alignItems: "flex-start" })}
   gap: 8px;
   max-width: 220px;
@@ -202,12 +200,8 @@ const Chat = styled.div<{ isChatGpt: boolean }>`
   border-radius: 14px;
   background-color: ${color.gray100};
 
-  ${(props) =>
-    props.isChatGpt !== true &&
-    css`
-      margin-left: auto;
-      background-color: ${color.primary};
-    `}
+  margin-left: auto;
+  background-color: ${color.primary};
 `;
 
 const MikeButton = styled.button<{ isRecording: boolean }>`
