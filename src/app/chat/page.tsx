@@ -13,9 +13,9 @@ const ChatScreen = () => {
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
-  const handleRecordButtonClick: MouseEventHandler<HTMLButtonElement> = async (
-    event
-  ) => {
+  const handleRecordButtonClick: MouseEventHandler<
+    HTMLButtonElement
+  > = async () => {
     if (!isRecording) {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -33,10 +33,13 @@ const ChatScreen = () => {
         const blob = new Blob(audioArray, { type: "audio/ogg codecs=opus" });
         audioArray.splice(0);
 
-        const blobURL = window.URL.createObjectURL(blob);
+        const audioUrl = window.URL.createObjectURL(blob);
+        const sound = new File([audioUrl], "soundBlob", {
+          lastModified: new Date().getTime(),
+          type: "audio",
+        });
 
-        // blobURL 보내기
-        console.log(blobURL);
+        console.log(sound);
       };
       mediaRecorderRef.current.start();
       setIsRecording(true);
@@ -93,7 +96,7 @@ const StyledChatScreen = styled.div`
 `;
 
 const Chat = styled.div<{ isChatGpt: boolean }>`
-  max-width: 282px;
+  max-width: 220px;
   padding: 8px 12px;
   border-radius: 14px;
   background-color: ${color.gray100};
