@@ -3,7 +3,7 @@ import { flex } from "@/utils";
 import { Row, Text } from "@/components/common";
 import { styled } from "styled-components";
 import { IconQuestion, IconSpeaker } from "@/assets/icon";
-import { customAxios } from "@/apis/core";
+import { customAxios } from "@/api/core";
 import { useState } from "react";
 
 interface PropsType {

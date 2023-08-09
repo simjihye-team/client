@@ -4,7 +4,7 @@ import { Text, Row } from "@/components/common";
 import styled from "styled-components";
 import { IconQuestion, IconSpeaker } from "@/assets/icon";
 import { useState } from "react";
-import { customAxios } from "@/apis/core";
+import { customAxios } from "@/api/core";
 
 interface PropsType {
   content: string;

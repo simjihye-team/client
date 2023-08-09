@@ -1,6 +1,6 @@
 "use client";
 
-import { customAxios } from "@/apis/core";
+import { customAxios } from "@/api/core";
 import { IconMic, IconQuestion, IconSpeaker, IconStopMic } from "@/assets/icon";
 import { Column, Row, Text } from "@/components/common";
 import { Header } from "@/components/domains";
