@@ -26,7 +26,6 @@ const MainScreen = () => {
       <Column
         width="100%"
         height="100%"
-        style={{ padding: "0 16px" }}
         gap={32}
         alignItems="center"
         justifyContent="space-between"
@@ -50,7 +49,7 @@ const MainScreen = () => {
           />
         </Column>
 
-        <Button onClick={() => push("/start")} width="100%" size="MEDIUM">
+        <Button onClick={() => push("/start")} size="LARGE" width="100%">
           다음
         </Button>
       </Column>
@@ -64,5 +63,5 @@ const StyledMainScreen = styled.div`
   ${flex({ flexDirection: "column", alignItems: "center" })}
   width: 100%;
   height: 100vh;
-  padding: 64px 0;
+  padding: 54px 16px;
 `;

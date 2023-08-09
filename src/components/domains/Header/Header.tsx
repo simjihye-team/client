@@ -17,9 +17,12 @@ export default Header;
 
 const StyledHeader = styled.div`
   ${flex({ justifyContent: "space-between", alignItems: "center" })}
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: ${color.white};
   width: 100%;
   height: 54px;
   border: 1px solid ${color.gray100};
   padding: 0 8px;
-  margin-bottom: 16px;
 `;

@@ -5,3 +5,4 @@ export { default as IconArrowRight } from "./IconArrowRight";
 export { default as IconArrowTop } from "./IconArrowTop";
 export { default as IconClose } from "./IconClose";
 export { default as IconArrowDropdown } from "./IconArrowDropdown";
+export { default as IconMic } from "./IconMic";

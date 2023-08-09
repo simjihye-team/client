@@ -1,9 +1,10 @@
 "use client";
 
 import { Column, Text } from "@/components/common";
-import IconMic from "@/icons/IconMic";
-import { color } from "@/styles";
+import { Header } from "@/components/domains";
+import { color, font } from "@/styles";
 import { flex } from "@/utils";
+import { IconMic } from "@/assets/icon";
 import styled, { css } from "styled-components";
 
 const CHAT_LIST_DATA = [
@@ -97,47 +98,62 @@ const CHAT_LIST_DATA = [
 
 const ChatScreen = () => {
   return (
-    <StyledChatScreen>
+    <>
+      <Header />
+      <StyledChatScreen>
+        <Column gap={16}>
+          {CHAT_LIST_DATA.map(({ role, content }) => (
+            <Chat isChatGpt={role === "system"}>
+              <Text
+                fontType="p3"
+                color={role === "system" ? color.gray900 : color.white}
+              >
+                {content}
+              </Text>
+            </Chat>
+          ))}
+        </Column>
+      </StyledChatScreen>
       <Column
-        style={{ flex: "1", padding: "24px 32px 0", overflow: "auto" }}
-        gap={16}
+        style={{
+          backgroundColor: color.white,
+          position: "sticky",
+          bottom: 0,
+          top: 0,
+        }}
+        height={80}
+        alignItems="center"
+        justifyContent="center"
       >
-        {CHAT_LIST_DATA.map(({ role, content }) => (
-          <Chat isChatGpt={role === "system"}>
-            <Text fontType="btn2">{content}</Text>
-          </Chat>
-        ))}
-      </Column>
-      <Column height={80} alignItems="center" justifyContent="center">
         <MikeButton>
-          <IconMic />
+          <IconMic width={24} height={24} color={color.gray900} />
         </MikeButton>
       </Column>
-    </StyledChatScreen>
+    </>
   );
 };
 
 export default ChatScreen;
 
 const StyledChatScreen = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  background-color: #f3f3f3;
+  ${flex({ flexDirection: "column" })}
+  width: 100%;
+  height: max-content;
+  background-color: ${color.white};
+  padding: 10px 16px;
 `;
 
 const Chat = styled.div<{ isChatGpt: boolean }>`
   max-width: 282px;
-  padding: 14px 22px;
+  padding: 8px 12px;
   border-radius: 14px;
-  background-color: #e5e6e8;
+  background-color: ${color.gray100};
 
   ${(props) =>
-    !props.isChatGpt &&
+    props.isChatGpt !== true &&
     css`
       margin-left: auto;
-      background-color: white;
+      background-color: ${color.primary};
     `}
 `;
 
@@ -145,6 +161,7 @@ const MikeButton = styled.button`
   ${flex({ justifyContent: "center", alignItems: "center" })}
   width: 48px;
   height: 48px;
-  background-color: ${color.primary};
-  border-radius: 999px;
+  background-color: ${color.white};
+  border: 2px solid ${color.primary};
+  border-radius: 50%;
 `;

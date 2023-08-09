@@ -7,8 +7,11 @@ import SVGSmirkingFace from "@/assets/svg/smirking-face.svg";
 import Image from "next/image";
 import { Header } from "@/components/domains";
 import styled from "styled-components";
+import { useRouter } from "next/navigation";
 
 const StartScreen = () => {
+  const { push } = useRouter();
+
   return (
     <>
       <Header />
@@ -62,7 +65,7 @@ const StartScreen = () => {
             </Text>
           </Column>
         </Column>
-        <Button width="100%" size="LARGE">
+        <Button onClick={() => push("/chat")} width="100%" size="LARGE">
           시작하기
         </Button>
       </StyledStartScreen>
@@ -81,5 +84,5 @@ const StyledStartScreen = styled.div`
   gap: 16px;
   width: 100%;
   height: 100vh;
-  padding: 0 16px 64px;
+  padding: 0 16px 54px;
 `;
