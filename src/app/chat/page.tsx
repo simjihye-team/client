@@ -1,6 +1,6 @@
 "use client";
 
-import { IconMic } from "@/assets/icon";
+import { IconMic, IconStopMic } from "@/assets/icon";
 import { Column, Text } from "@/components/common";
 import { Header } from "@/components/domains";
 import { CHAT_LIST_DATA } from "@/constants/chat";
@@ -48,6 +48,7 @@ const ChatScreen = () => {
       setIsRecording(false);
     }
   };
+
   return (
     <>
       <Header />
@@ -67,6 +68,7 @@ const ChatScreen = () => {
       </StyledChatScreen>
       <Column
         style={{
+          borderTop: `1px solid ${color.gray100}`,
           backgroundColor: color.white,
           position: "sticky",
           bottom: 0,
@@ -76,9 +78,12 @@ const ChatScreen = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <MikeButton onClick={handleRecordButtonClick}>
-          {/* <IconStopMic width={24} height={24} color={color.white} /> */}
-          <IconMic width={24} height={24} color={color.gray900} />
+        <MikeButton isRecording={isRecording} onClick={handleRecordButtonClick}>
+          {isRecording ? (
+            <IconStopMic width={24} height={24} color={color.primary} />
+          ) : (
+            <IconMic width={24} height={24} color={color.primary} />
+          )}
         </MikeButton>
       </Column>
     </>
@@ -109,12 +114,12 @@ const Chat = styled.div<{ isChatGpt: boolean }>`
     `}
 `;
 
-const MikeButton = styled.button`
+const MikeButton = styled.button<{ isRecording: boolean }>`
   ${flex({ justifyContent: "center", alignItems: "center" })}
-  width: 48px;
+  width: 250px;
   height: 48px;
-  background-color: ${color.white};
-  border: 2px solid ${color.primary};
+  background-color: ${(props) =>
+    props.isRecording ? color.gray100 : color.gray100};
   color: ${color.primary};
-  border-radius: 50%;
+  border-radius: 16px;
 `;

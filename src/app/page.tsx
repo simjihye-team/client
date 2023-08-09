@@ -42,6 +42,7 @@ const MainScreen = () => {
           />
           <Dropdown
             data={["음식점", "편의점", "지하철"]}
+            placeholder="상황을 선택해주세요."
             onChange={(data) => handleSituationDataChange(data)}
             name="situation"
             value={situation}
