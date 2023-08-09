@@ -1,5 +1,4 @@
 import Provider from "@/components/Provider";
-import QueryClientProvider from "@/services/QueryClientProvider";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 
@@ -16,9 +15,7 @@ const RootLayout = ({ children }: PropsType) => {
   return (
     <html lang="en">
       <body>
-        <QueryClientProvider>
-          <Provider>{children}</Provider>
-        </QueryClientProvider>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );

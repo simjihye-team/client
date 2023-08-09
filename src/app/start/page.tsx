@@ -8,12 +8,9 @@ import Image from "next/image";
 import { Header } from "@/components/domains";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import { situationAtomState } from "@/store/situation";
-import { useRecoilValue } from "recoil";
 
 const StartScreen = () => {
   const { push } = useRouter();
-  const situation = useRecoilValue(situationAtomState);
 
   return (
     <>
