@@ -3,6 +3,7 @@
 import { Column, Text } from "@/components/common";
 import IconMic from "@/icons/IconMic";
 import { color } from "@/styles";
+import { flex } from "@/utils";
 import styled, { css } from "styled-components";
 
 const CHAT_LIST_DATA = [
@@ -97,17 +98,20 @@ const CHAT_LIST_DATA = [
 const ChatScreen = () => {
   return (
     <StyledChatScreen>
-      <ChatList>
-        {CHAT_LIST_DATA.map((item) => (
-          <Chat isAIChat={item.role === "system"}>
-            <Text fontType="btn2">{item.content}</Text>
+      <Column
+        style={{ flex: "1", padding: "24px 32px 0", overflow: "auto" }}
+        gap={16}
+      >
+        {CHAT_LIST_DATA.map(({ role, content }) => (
+          <Chat isChatGpt={role === "system"}>
+            <Text fontType="btn2">{content}</Text>
           </Chat>
         ))}
-      </ChatList>
+      </Column>
       <Column height={80} alignItems="center" justifyContent="center">
-        <ContinueButton>
+        <MikeButton>
           <IconMic />
-        </ContinueButton>
+        </MikeButton>
       </Column>
     </StyledChatScreen>
   );
@@ -123,34 +127,22 @@ const StyledChatScreen = styled.div`
   background-color: #f3f3f3;
 `;
 
-const ChatList = styled.div`
-  flex: 1;
-  padding: 24px 32px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  overflow: auto;
-`;
-
-const Chat = styled.div<{ isAIChat?: boolean }>`
+const Chat = styled.div<{ isChatGpt: boolean }>`
   max-width: 282px;
-
   padding: 14px 22px;
   border-radius: 14px;
   background-color: #e5e6e8;
 
   ${(props) =>
-    !props.isAIChat &&
+    !props.isChatGpt &&
     css`
       margin-left: auto;
       background-color: white;
     `}
 `;
 
-const ContinueButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const MikeButton = styled.button`
+  ${flex({ justifyContent: "center", alignItems: "center" })}
   width: 48px;
   height: 48px;
   background-color: ${color.primary};
