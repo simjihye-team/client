@@ -1,8 +1,8 @@
 "use client";
 
 import { customAxios } from "@/api/core";
-import { IconMic, IconQuestion, IconSpeaker, IconStopMic } from "@/assets/icon";
-import { Column, Row, Text } from "@/components/common";
+import { IconMic, IconStopMic } from "@/assets/icon";
+import { Column, Text } from "@/components/common";
 import { Header } from "@/components/domains";
 import AssistantChat from "@/components/domains/AssistantChat/AssistantChat";
 import Chat from "@/components/domains/Chat/Chat";
@@ -19,6 +19,7 @@ import styled from "styled-components";
 interface Chat {
   content: string;
   role: string;
+  pronun: string;
 }
 
 const ChatScreen = () => {
@@ -26,7 +27,7 @@ const ChatScreen = () => {
   const { push } = useRouter();
   const situation = useRecoilValue(situationAtomState);
   const [isRecording, setIsRecording] = useState(false);
-  const [firstChat, setFirstChat] = useState("");
+  const [firstChat, setFirstChat] = useState({ content: "", pronun: "" });
   const [chatId, setChatId] = useState("");
   const [chatList, setChatList] = useState<Chat[]>([]);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -141,7 +142,7 @@ const ChatScreen = () => {
       const { data } = await customAxios.post("/api/question/first", {
         situation,
       });
-      setFirstChat(data.result.content);
+      setFirstChat(data.result);
       setChatId(data.ChatId);
     } catch (err) {
       console.log(err);
@@ -153,15 +154,22 @@ const ChatScreen = () => {
     fetchFirstQuestion();
   }, []);
 
+  useEffect(() => console.log(chatList), [chatList]);
+
   return (
     <>
       <Header option="chat" title="햄버거 가게에서" onFinsh={openFinishModal} />
       <StyledChatScreen>
         <Column gap={16}>
-          {firstChat && <AssistantChat content={firstChat} />}
-          {chatList.map(({ role, content }) =>
+          {firstChat.content && (
+            <AssistantChat
+              content={firstChat.content}
+              pronun={firstChat.pronun}
+            />
+          )}
+          {chatList.map(({ role, content, pronun }) =>
             role === "assistant" ? (
-              <AssistantChat content={content} />
+              <AssistantChat content={content} pronun={pronun} />
             ) : (
               <Chat content={content} />
             )
