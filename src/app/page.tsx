@@ -1,15 +1,17 @@
 "use client";
 
 import { color } from "@/styles";
-import { Button, Column, Row, Text } from "@/components/common";
+import { Button, Column, Text } from "@/components/common";
 import { flex } from "@/utils";
-import styled from "styled-components";
 import Dropdown from "@/components/common/Dropdown/Dropdown";
 import Image from "next/image";
 import SVGSmirkingFace from "@/assets/svg/smirking-face.svg";
 import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
+import styled from "styled-components";
 
 const MainScreen = () => {
+  const { push } = useRouter();
   const [situation, setSituation] = useState("");
 
   const handleSituationDataChange = useCallback(
@@ -22,11 +24,12 @@ const MainScreen = () => {
   return (
     <StyledMainScreen>
       <Column
-        style={{ height: "100%", padding: "0 32px" }}
+        width="100%"
+        height="100%"
+        style={{ padding: "0 16px" }}
         gap={32}
         alignItems="center"
         justifyContent="space-between"
-        width={400}
       >
         <Column gap={24} width="100%" alignItems="center">
           <Text fontType="H2" color={color.gray900}>
@@ -47,7 +50,7 @@ const MainScreen = () => {
           />
         </Column>
 
-        <Button width="100%" size="MEDIUM">
+        <Button onClick={() => push("/start")} width="100%" size="MEDIUM">
           다음
         </Button>
       </Column>
