@@ -1,5 +1,6 @@
 "use client";
 
+import { customAxios } from "@/apis/core";
 import { IconMic, IconQuestion, IconSpeaker, IconStopMic } from "@/assets/icon";
 import { Column, Row, Text } from "@/components/common";
 import { Header } from "@/components/domains";
@@ -10,15 +11,22 @@ import { color } from "@/styles";
 import { flex } from "@/utils";
 import { useOverlay } from "@toss/use-overlay";
 import { useRouter } from "next/navigation";
-import { MouseEventHandler, useRef, useState } from "react";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled, { css } from "styled-components";
+
+interface Chat {
+  id: number;
+  message: string;
+  role: string;
+}
 
 const ChatScreen = () => {
   const overlay = useOverlay();
   const { push } = useRouter();
   const situation = useRecoilValue(situationAtomState);
   const [isRecording, setIsRecording] = useState(false);
+  const [chatList, setChatList] = useState<Chat[]>([]);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   const handleRecordButtonClick: MouseEventHandler<
@@ -82,29 +90,48 @@ const ChatScreen = () => {
     ));
   };
 
+  const fetchFirstQuestion = async () => {
+    try {
+      const { data } = await customAxios.post("/api/question/first", {
+        situation,
+      });
+      const message = data.result.content;
+      const id = data.ChatId;
+      const role = data.result.role;
+      setChatList((prev) => [...prev, { id, message, role }]);
+    } catch (err) {
+      console.log(err);
+      alert("뭔가가 안돼느데?");
+    }
+  };
+
+  useEffect(() => {
+    fetchFirstQuestion();
+  }, []);
+
   return (
     <>
       <Header option="chat" title={situation} onFinsh={openFinishModal} />
       <StyledChatScreen>
         <Column gap={16}>
-          {CHAT_LIST_DATA.map(({ role, content }) =>
-            role === "system" ? (
-              <Chat isChatGpt={role === "system"}>
+          {chatList.map(({ role, message, id }) =>
+            role === "assistant" ? (
+              <Chat key={id} isChatGpt={role === "assistant"}>
                 <Text fontType="p3" color={color.gray900}>
-                  {content}
+                  {message}
                 </Text>
-                <Text fontType="p3" color={color.primary}>
+                {/* <Text fontType="p3" color={color.primary}>
                   번역번역번역번역번역번역번역번역번역번역번역번역
-                </Text>
+                </Text> */}
                 <Row style={{ marginTop: "8px" }} gap={8} alignItems="center">
                   <IconSpeaker width={16} height={16} color={color.primary} />
                   <IconQuestion width={16} height={16} color={color.primary} />
                 </Row>
               </Chat>
             ) : (
-              <Chat isChatGpt={role === "system"}>
+              <Chat isChatGpt={role === "assistant"}>
                 <Text fontType="p3" color={color.white}>
-                  {content}
+                  {message}
                 </Text>
               </Chat>
             )
@@ -117,7 +144,6 @@ const ChatScreen = () => {
           backgroundColor: color.white,
           position: "sticky",
           bottom: 0,
-          top: 0,
         }}
         height={80}
         alignItems="center"
@@ -140,7 +166,8 @@ export default ChatScreen;
 const StyledChatScreen = styled.div`
   ${flex({ flexDirection: "column" })}
   width: 100%;
-  height: max-content;
+  min-height: 100vh;
+  max-height: max-content;
   background-color: ${color.white};
   padding: 10px 16px;
 `;
@@ -162,6 +189,8 @@ const Chat = styled.div<{ isChatGpt: boolean }>`
 `;
 
 const MikeButton = styled.button<{ isRecording: boolean }>`
+  position: sticky;
+  bottom: 0;
   ${flex({ justifyContent: "center", alignItems: "center" })}
   width: 200px;
   height: 48px;
