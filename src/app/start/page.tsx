@@ -3,7 +3,7 @@
 import { Button, Column, Text } from "@/components/common";
 import { color } from "@/styles";
 import { flex } from "@/utils";
-import SVGSmirkingFace from "@/assets/svg/smirking-face.svg";
+import SVGHappyFace from "@/assets/svg/happy-face-with-enlarged-eyes.svg";
 import Image from "next/image";
 import { Header } from "@/components/domains";
 import styled from "styled-components";
@@ -22,12 +22,12 @@ const StartScreen = () => {
         <Column width="100%" gap={32} alignItems="center">
           <Column width="100%" gap={16} alignItems="center">
             <Image
-              src={SVGSmirkingFace}
+              src={SVGHappyFace}
               width={160}
               height={160}
               alt="smirking-face"
             />
-            <Text fontType="H2">{situation}</Text>
+            <Text fontType="H2">햄버거 가게에서</Text>
           </Column>
 
           <Column width="100%">
@@ -45,7 +45,8 @@ const StartScreen = () => {
               </Text>
             </Column>
             <Text fontType="p2" color={color.gray900}>
-              안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕
+              일본 휴가 중에 유명한 버거 체인점인 맥도날드에 들어갔어요. 맛있는
+              버거를 주문해 볼게요.
             </Text>
           </Column>
 
@@ -64,7 +65,7 @@ const StartScreen = () => {
               </Text>
             </Column>
             <Text fontType="p2" color={color.gray900}>
-              안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕
+              음식 주문하기
             </Text>
           </Column>
         </Column>

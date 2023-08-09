@@ -7,16 +7,14 @@ import { Header } from "@/components/domains";
 import AssistantChat from "@/components/domains/AssistantChat/AssistantChat";
 import Chat from "@/components/domains/Chat/Chat";
 import Modal from "@/components/domains/Modal/Modal";
-import { CHAT_LIST_DATA } from "@/constants/chat";
 import { situationAtomState } from "@/store/situation";
 import { color } from "@/styles";
 import { flex } from "@/utils";
 import { useOverlay } from "@toss/use-overlay";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 interface Chat {
   content: string;
@@ -28,7 +26,6 @@ const ChatScreen = () => {
   const { push } = useRouter();
   const situation = useRecoilValue(situationAtomState);
   const [isRecording, setIsRecording] = useState(false);
-  const [audiourl, setAudiourl] = useState<any>();
   const [firstChat, setFirstChat] = useState("");
   const [chatId, setChatId] = useState("");
   const [chatList, setChatList] = useState<Chat[]>([]);
@@ -142,7 +139,7 @@ const ChatScreen = () => {
 
   return (
     <>
-      <Header option="chat" title={situation} onFinsh={openFinishModal} />
+      <Header option="chat" title="햄버거 가게에서" onFinsh={openFinishModal} />
       <StyledChatScreen>
         <Column gap={16}>
           {firstChat && <AssistantChat content={firstChat} />}

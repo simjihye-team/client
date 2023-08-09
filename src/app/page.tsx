@@ -43,11 +43,11 @@ const MainScreen = () => {
             alt="smirking-face"
           />
           <Dropdown
-            data={["Burger", "음식점", "편의점", "지하철"]}
+            data={["햄버거 가게에서", "음식점", "편의점", "지하철"]}
             placeholder="상황을 선택해주세요."
             onChange={(data) => handleSituationDataChange(data)}
             name="situation"
-            value={situation}
+            value={situation === "Burger" ? "햄버거 가게에서" : ""}
             width="100%"
           />
         </Column>
