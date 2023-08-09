@@ -54,25 +54,28 @@ const ChatScreen = () => {
       <Header />
       <StyledChatScreen>
         <Column gap={16}>
-          {CHAT_LIST_DATA.map(({ role, content }) => (
-            <Chat isChatGpt={role === "system"}>
-              <Text
-                fontType="p3"
-                color={role === "system" ? color.gray900 : color.white}
-              >
-                {content}
-              </Text>
-              {/* <Text fontType="p3" color={color.primary}>
-                번역번역번역번역번역번역번역번역번역번역번역번역
-              </Text> */}
-              {role === "system" && (
+          {CHAT_LIST_DATA.map(({ role, content }) =>
+            role === "system" ? (
+              <Chat isChatGpt={role === "system"}>
+                <Text fontType="p3" color={color.gray900}>
+                  {content}
+                </Text>
+                <Text fontType="p3" color={color.primary}>
+                  번역번역번역번역번역번역번역번역번역번역번역번역
+                </Text>
                 <Row style={{ marginTop: "8px" }} gap={8} alignItems="center">
                   <IconSpeaker width={16} height={16} color={color.primary} />
                   <IconQuestion width={16} height={16} color={color.primary} />
                 </Row>
-              )}
-            </Chat>
-          ))}
+              </Chat>
+            ) : (
+              <Chat isChatGpt={role === "system"}>
+                <Text fontType="p3" color={color.white}>
+                  {content}
+                </Text>
+              </Chat>
+            )
+          )}
         </Column>
       </StyledChatScreen>
       <Column
