@@ -48,7 +48,6 @@ const MainScreen = () => {
             width="100%"
           />
         </Column>
-
         <Button onClick={() => push("/start")} size="LARGE" width="100%">
           다음
         </Button>
