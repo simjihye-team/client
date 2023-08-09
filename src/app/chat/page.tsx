@@ -61,17 +61,16 @@ const ChatScreen = () => {
                 color={role === "system" ? color.gray900 : color.white}
               >
                 {content}
-                {role === "system" && (
-                  <Row style={{ marginTop: "8px" }} gap={8} alignItems="center">
-                    <IconSpeaker width={16} height={16} color={color.primary} />
-                    <IconQuestion
-                      width={16}
-                      height={16}
-                      color={color.primary}
-                    />
-                  </Row>
-                )}
               </Text>
+              {/* <Text fontType="p3" color={color.primary}>
+                번역번역번역번역번역번역번역번역번역번역번역번역
+              </Text> */}
+              {role === "system" && (
+                <Row style={{ marginTop: "8px" }} gap={8} alignItems="center">
+                  <IconSpeaker width={16} height={16} color={color.primary} />
+                  <IconQuestion width={16} height={16} color={color.primary} />
+                </Row>
+              )}
             </Chat>
           ))}
         </Column>
@@ -111,6 +110,8 @@ const StyledChatScreen = styled.div`
 `;
 
 const Chat = styled.div<{ isChatGpt: boolean }>`
+  ${flex({ flexDirection: "column", alignItems: "flex-start" })}
+  gap: 8px;
   max-width: 220px;
   padding: 8px 12px;
   border-radius: 14px;
