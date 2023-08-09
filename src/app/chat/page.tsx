@@ -1,7 +1,7 @@
 "use client";
 
-import { IconMic, IconStopMic } from "@/assets/icon";
-import { Column, Text } from "@/components/common";
+import { IconMic, IconQuestion, IconSpeaker, IconStopMic } from "@/assets/icon";
+import { Column, Row, Text } from "@/components/common";
 import { Header } from "@/components/domains";
 import { CHAT_LIST_DATA } from "@/constants/chat";
 import { color } from "@/styles";
@@ -61,6 +61,16 @@ const ChatScreen = () => {
                 color={role === "system" ? color.gray900 : color.white}
               >
                 {content}
+                {role === "system" && (
+                  <Row style={{ marginTop: "8px" }} gap={8} alignItems="center">
+                    <IconSpeaker width={16} height={16} color={color.primary} />
+                    <IconQuestion
+                      width={16}
+                      height={16}
+                      color={color.primary}
+                    />
+                  </Row>
+                )}
               </Text>
             </Chat>
           ))}
@@ -118,8 +128,7 @@ const MikeButton = styled.button<{ isRecording: boolean }>`
   ${flex({ justifyContent: "center", alignItems: "center" })}
   width: 250px;
   height: 48px;
-  background-color: ${(props) =>
-    props.isRecording ? color.gray100 : color.gray100};
+  background-color: ${color.gray200};
   color: ${color.primary};
   border-radius: 16px;
 `;

@@ -7,3 +7,5 @@ export { default as IconClose } from "./IconClose";
 export { default as IconArrowDropdown } from "./IconArrowDropdown";
 export { default as IconMic } from "./IconMic";
 export { default as IconStopMic } from "./IconStopMic";
+export { default as IconSpeaker } from "./IconSpeaker";
+export { default as IconQuestion } from "./IconQuestion";
