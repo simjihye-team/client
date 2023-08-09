@@ -26,6 +26,7 @@ const ChatScreen = () => {
   const { push } = useRouter();
   const situation = useRecoilValue(situationAtomState);
   const [isRecording, setIsRecording] = useState(false);
+  const [firstChat, setFirstChat] = useState("");
   const [chatList, setChatList] = useState<Chat[]>([]);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
@@ -45,7 +46,7 @@ const ChatScreen = () => {
         audioArray.push(event.data);
       };
 
-      mediaRecorderRef.current.onstop = (event) => {
+      mediaRecorderRef.current.onstop = async (event) => {
         const blob = new Blob(audioArray, { type: "audio/ogg codecs=opus" });
         audioArray.splice(0);
 
@@ -54,6 +55,19 @@ const ChatScreen = () => {
           lastModified: new Date().getTime(),
           type: "audio",
         });
+
+        // api
+        try {
+          await customAxios.post(
+            "/api/voice/text",
+            { formData: sound },
+            { headers: { "Content-Type": "multipart/form-data" } }
+          );
+          alert("성공이노");
+        } catch (err) {
+          console.log(err);
+          alert("에러");
+        }
 
         console.log(sound);
       };
@@ -95,10 +109,7 @@ const ChatScreen = () => {
       const { data } = await customAxios.post("/api/question/first", {
         situation,
       });
-      const message = data.result.content;
-      const id = data.ChatId;
-      const role = data.result.role;
-      setChatList((prev) => [...prev, { id, message, role }]);
+      setFirstChat(data.result.content);
     } catch (err) {
       console.log(err);
       alert("뭔가가 안돼느데?");
@@ -114,6 +125,17 @@ const ChatScreen = () => {
       <Header option="chat" title={situation} onFinsh={openFinishModal} />
       <StyledChatScreen>
         <Column gap={16}>
+          {firstChat && (
+            <Chat isChatGpt={true}>
+              <Text fontType="p3" color={color.gray900}>
+                {firstChat}
+              </Text>
+              <Row style={{ marginTop: "8px" }} gap={8} alignItems="center">
+                <IconSpeaker width={16} height={16} color={color.primary} />
+                <IconQuestion width={16} height={16} color={color.primary} />
+              </Row>
+            </Chat>
+          )}
           {chatList.map(({ role, message, id }) =>
             role === "assistant" ? (
               <Chat key={id} isChatGpt={role === "assistant"}>
