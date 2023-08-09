@@ -1,8 +1,7 @@
-import "./globals.css";
+import Provider from "@/components/Provider";
+import QueryClientProvider from "@/services/QueryClientProvider";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import QueryClientProvider from "@/services/QueryClientProvider";
-import Provider from "@/components/Provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
