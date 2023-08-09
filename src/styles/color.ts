@@ -4,10 +4,10 @@ const color = {
   orange: "#FF763B",
   red: "#F44336",
 
-  primary: "색깔",
+  primary: "#0D76FF",
   high: "색깔",
   row: "색깔",
-  hovered: "색깔",
+  hovered: "#0A60D0",
 
   gray50: "#FAFAFB",
   gray100: "#F8F8F9",
