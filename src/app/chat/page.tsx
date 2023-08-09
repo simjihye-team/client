@@ -1,12 +1,87 @@
 "use client";
 
-import { Text } from "@/components/common";
+import { Column, Text } from "@/components/common";
+import IconMic from "@/icons/IconMic";
+import { color } from "@/styles";
 import styled, { css } from "styled-components";
 
 const CHAT_LIST_DATA = [
   {
     role: "user",
     content: "Hello!",
+  },
+  {
+    role: "system",
+    content:
+      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
+  },
+  {
+    role: "user",
+    content: "You too!",
+  },
+  {
+    role: "system",
+    content:
+      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
+  },
+  {
+    role: "user",
+    content: "You too!",
+  },
+
+  {
+    role: "system",
+    content:
+      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
+  },
+  {
+    role: "user",
+    content: "You too!",
+  },
+  {
+    role: "system",
+    content:
+      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
+  },
+  {
+    role: "user",
+    content: "You too!",
+  },
+  {
+    role: "system",
+    content:
+      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
+  },
+  {
+    role: "user",
+    content: "You too!",
+  },
+  {
+    role: "system",
+    content:
+      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
+  },
+  {
+    role: "user",
+    content: "You too!",
+  },
+  {
+    role: "system",
+    content:
+      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
+  },
+  {
+    role: "user",
+    content: "You too!",
+  },
+  {
+    role: "system",
+    content:
+      "HelloHello! Nice to meet you! asdfjasdifjaiewuh aoif aweiof wefwjeofijwe d",
+  },
+  {
+    role: "user",
+    content: "You too!",
   },
   {
     role: "system",
@@ -29,13 +104,11 @@ const ChatScreen = () => {
           </Chat>
         ))}
       </ChatList>
-      <ContinueBox>
+      <Column height={80} alignItems="center" justifyContent="center">
         <ContinueButton>
-          <Text fontType="btn2" color="white">
-            말하기
-          </Text>
+          <IconMic />
         </ContinueButton>
-      </ContinueBox>
+      </Column>
     </StyledChatScreen>
   );
 };
@@ -47,16 +120,16 @@ const StyledChatScreen = styled.div`
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  padding: 0 32px;
   background-color: #f3f3f3;
 `;
 
 const ChatList = styled.div`
   flex: 1;
-  padding-top: 24px;
+  padding: 24px 32px 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow: auto;
 `;
 
 const Chat = styled.div<{ isAIChat?: boolean }>`
@@ -74,20 +147,12 @@ const Chat = styled.div<{ isAIChat?: boolean }>`
     `}
 `;
 
-const ContinueBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 70px;
-`;
-
 const ContinueButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  padding: 16px;
-  height: 38px;
+  width: 48px;
+  height: 48px;
+  background-color: ${color.primary};
   border-radius: 999px;
-  background-color: #1c49ff;
 `;
