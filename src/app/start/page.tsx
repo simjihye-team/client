@@ -1,22 +1,17 @@
 "use client";
 
-import { IconArrowLeft } from "@/assets/icon";
 import { Button, Column, Text } from "@/components/common";
 import { color } from "@/styles";
 import { flex } from "@/utils";
-import { useRouter } from "next/navigation";
 import SVGSmirkingFace from "@/assets/svg/smirking-face.svg";
 import Image from "next/image";
+import { Header } from "@/components/domains";
 import styled from "styled-components";
 
 const StartScreen = () => {
-  const { push } = useRouter();
-
   return (
     <>
-      <Header>
-        <IconArrowLeft onClick={() => push("/")} width={24} height={24} />
-      </Header>
+      <Header />
       <StyledStartScreen>
         <Column width="100%" gap={32} alignItems="center">
           <Column width="100%" gap={16} alignItems="center">
@@ -67,7 +62,6 @@ const StartScreen = () => {
             </Text>
           </Column>
         </Column>
-
         <Button width="100%" size="LARGE">
           시작하기
         </Button>
@@ -87,14 +81,5 @@ const StyledStartScreen = styled.div`
   gap: 16px;
   width: 100%;
   height: 100vh;
-  padding: 0 16px 32px;
-`;
-
-const Header = styled.div`
-  ${flex({ justifyContent: "space-between", alignItems: "center" })}
-  width: 100%;
-  height: 54px;
-  border: 1px solid ${color.gray100};
-  padding: 0 8px;
-  margin-bottom: 16px;
+  padding: 0 16px 64px;
 `;
