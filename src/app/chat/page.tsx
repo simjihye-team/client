@@ -101,7 +101,7 @@ const ChatScreen = () => {
             },
           });
           setChatList((prev) => [...prev, ...data.result]);
-          setInterval(() => {
+          setTimeout(() => {
             overlay.open(({ isOpen, close }) => (
               <Modal
                 isOpen={isOpen}
