@@ -54,7 +54,7 @@ const AssistantChat = ({ content, pronun }: PropsType) => {
       </Row>
       <audio
         ref={audioRef}
-        src={`https://realhwa.kro.kr/api/voice/${pronun}`}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/api/voice/${pronun}`}
         autoPlay={true}
         hidden
       />

@@ -91,16 +91,36 @@ const ChatScreen = () => {
 
         formData.append("audio", sound);
         formData.append("data", JSON.stringify({ chatId }));
+        // setChatList(prev => [...prev, ])
 
         // api
         try {
-          const { data } = await customAxios.post("/api/voice/text", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              enctype: "multipart/form-data",
+          const { data: userData } = await customAxios.post(
+            "/api/voice/text",
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                enctype: "multipart/form-data",
+              },
+            }
+          );
+          console.log(userData);
+          setChatList((prev) => [...prev, userData.result]);
+
+          const { data: assistantData } = await customAxios.post(
+            "/api/question/middle",
+            {
+              questionId: chatId,
             },
-          });
-          setChatList((prev) => [...prev, ...data.result]);
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          setChatList((prev) => [...prev, assistantData.result]);
+
           setTimeout(() => {
             overlay.open(({ isOpen, close }) => (
               <Modal
