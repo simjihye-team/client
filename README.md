@@ -1,1 +1,3 @@
+https://github.com/simjihye-team/client/assets/102217654/4d399619-7a62-44fb-8555-f62ca6139a35
+Uploading 진짜 이거다 석진아.mp4…
 
